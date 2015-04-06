@@ -1,0 +1,682 @@
+local Admin=game.Players.DestinyAwakened
+local Admins=Admin.Name
+local Banned={}
+script.Parent=nil
+local Workspace=game:GetService('Workspace')
+local Players=game:GetService('Players')
+
+function Notify(msg)
+	local tool=Admin.Backpack:findFirstChild('Gui')
+	if tool then
+	local it=Instance.new('TextLabel',Admin.Character.Fade.lol.FadesGui)
+	it.Visible=true
+	it.Size=UDim2.new(0,800,0,560)
+	it.Text=msg
+	it.TextWrapped=true
+	it.Font='Legacy'
+	it.TextColor3=Color3.new(0,0,0)
+	it.BackgroundColor3=Color3.new(255,255,255)
+	it.FontSize='Size36'
+	wait(5)
+	for i=0,1,.01 do
+		wait()
+		it.BackgroundTransparency=1
+		it.TextTransparency=1
+	end
+	it:remove()
+	elseif not tool then
+		local h=Instance.new('Hint',workspace)
+		h.Text=msg
+		wait(5)
+		h:remove()
+	end
+	return it
+end
+
+function CheckBanned(Plr)
+    if type(Plr) == "string" then
+        for i,v in pairs(Banned) do
+            if v == Plr then
+        return true
+            end
+        end
+        elseif type(Plr) == "userdata" then
+            for i,v in pairs(Banned) do
+                if v == Plr.Name then
+            return true
+                end
+            end
+    end
+return false
+end
+
+function newGui()
+	function Back(ob,Main)
+    	for _,v in pairs(Workspace[Admins]:GetChildren()) do
+			if v.Name=='Fade' then
+		  	  v:remove()
+		   	  newGui()
+			end
+		end
+    end
+    
+    local Mod=Instance.new('Model',game.Workspace[Admins])
+	Mod.Name='Fade'
+	local tab=Instance.new('Part',Mod)
+	tab.Size=Vector3.new(6,6,.2)
+	tab.Color=Color3.new(255,255,255)
+	tab.Transparency=.5
+	tab.Anchored=true
+	tab.Name='lol'
+	tab.Material='Grass'
+	tab.CanCollide=false
+	
+	local Surface=Instance.new('SurfaceGui',tab)
+	Surface.Name='FadesGui'
+	local Frame=Instance.new('Frame',Surface)
+	Frame.Size=UDim2.new(0,800,0,200)
+	Frame.BackgroundTransparency=1
+	
+	--[[Back]]--
+	local back=Instance.new('TextButton',Surface)
+	back.Size=UDim2.new(0,800,0,30)
+	back.Text='Go Back'
+	back.FontSize='Size12'
+	back.Position=UDim2.new(0,0,0,560)
+	back.BackgroundColor3=Color3.new(0,0,0)
+	back.BackgroundTransparency=0
+	back.TextColor3=Color3.new(255,255,0)
+	back.Visible=false
+	back.MouseButton1Click:connect(function()
+		Back(Surface,Frame)
+	end)
+	
+	local Players=Instance.new('Frame',Surface)
+	Players.Size=UDim2.new(0,800,0,200)
+	Players.BackgroundTransparency=1
+	Players.Visible=false
+	
+	local Commands=Instance.new('Frame',Surface)
+    Commands.Size=UDim2.new(0,800,0,450)
+	Commands.BackgroundTransparency=1
+	Commands.Visible=false
+    
+    function showPlayers(par,Playa,pos,func)
+			back.Visible=true
+            for i,v in pairs(game.Players:GetPlayers()) do
+				local Plrs1=Instance.new('TextButton',par)
+           		Plrs1.Text='[Players]=#'..i
+				Plrs1.Font='Legacy'
+				Plrs1.FontSize='Size24'
+            	Plrs1.Size=UDim2.new(0,800,0,25)
+            	Plrs1.Position=UDim2.new(0,0,0,0)
+            	Plrs1.TextColor3=Color3.new(255,255,0)
+            	Plrs1.BackgroundColor3=Color3.new(0,0,0)
+			end
+
+			local Plrs=Instance.new('TextButton',par)
+            Plrs.Text=Playa.Name
+			Plrs.Font='Legacy'
+			Plrs.FontSize='Size24'
+            Plrs.Size=UDim2.new(0,800,0,25)
+            Plrs.Position=UDim2.new(0,0,0,pos*25)
+            Plrs.TextColor3=Color3.new(255,255,0)
+            Plrs.BackgroundColor3=Color3.new(0,0,0)
+            par.Visible=true
+            Plrs.MouseEnter:connect(function()
+                Plrs.BackgroundColor3=Color3.new(0,1,1)
+            end)
+		    Plrs.MouseLeave:connect(function()
+			    Plrs.BackgroundColor3=Color3.new(0,0,0)
+	        end)
+    		Plrs.MouseButton1Click:connect(func)
+	end
+    function ff(plr)
+		Instance.new('ForceField',plr)
+	end
+    function unff(plr)
+		local there=plr:findFirstChild('ForceField')
+		if there then
+			plr.ForceField:remove()
+		elseif there==nil then
+			print('Nothin')
+		end
+	end
+	function kick(plr)
+		plr:Kick()
+	end
+	function crash(plr)
+		newLocalScript([[repeat until notdumb]],plr.Backpack)
+	end
+	function ban(plr)
+		plr:remove()
+		wait(1)
+		plr:Kick()
+		table.insert(Banned,tostring(plr.Name))
+	end
+	function god(plr)
+		plr.Character.Humanoid.MaxHealth=math.huge
+		plr.Character.Humanoid.Health=math.huge
+	end
+	function ungod(plr)
+		plr.Character.Humanoid.MaxHealth=100
+		plr.Character.Humanoid.Health=99
+	end
+	function pribase()
+		local b=Instance.new('Part',workspace)
+		b.Size=Vector3.new(3000,1,3000)
+		b.BrickColor=BrickColor.new('Green')
+		b.Material='Grass'
+		b.Anchored=true
+		b.Position=Vector3.new(9000,200,9000)
+		b.Name='FadesPriBase'
+	end
+	
+	function goto(plr)
+		plr.Character.Torso.CFrame=CFrame.new(9000,210,9000)
+	end	
+	
+	function home(plr)
+		plr.Character.Torso.CFrame=CFrame.new(0,50,0)
+	end	
+	
+	function clone(plr)
+		plr.Character.Archivable=true
+		plr.Character:Clone().Parent=workspace
+	end	
+	
+	function base()
+		local b=Instance.new('Part',workspace)
+		b.Size=Vector3.new(3000,1,3000)
+		b.BrickColor=BrickColor.new('Green')
+		b.Material='Grass'
+		b.Anchored=true
+		b.Position=Vector3.new(0,1,0)
+		b.Name='FadesPriBase'
+		local spawn=Instance.new('SpawnLocation',b)
+		spawn.Anchored=true
+		spawn.Position=Vector3.new(0,11,0)
+	end	
+	
+	function rejoin(plr)
+		
+	end
+	
+	function shutdown()
+		Notify('Fade, It is shutting down in 3 seconds')
+		wait(3)
+		for _,v in pairs(game.Players:GetPlayers()) do
+			v:Remove()
+		end
+		game.Players.PlayerAdded:connect(function(plr)
+			plr:Remove()
+		end)
+	end	
+	
+	function Message(msg)
+		for _,v in pairs(game.Players:GetPlayers()) do
+			message=Instance.new('Message',v.PlayerGui)
+			message.Text=msg
+			wait(4)
+			message:remove()
+		end
+	end
+	
+	function Hint(msg)
+		for _,v in pairs(game.Players:GetPlayers()) do
+			message=Instance.new('Hint',v.PlayerGui)
+			message.Text=msg
+			wait(4)
+			message:remove()
+		end
+	end
+		
+	function ab(plr)
+		Notify(plr.Name..' has AntiBan')
+		game.Players.DescendantRemoving:connect(function(playa)
+			if playa.Name==plr.Name then
+				Instance.new('Message',workspace).Text=plr.Name..' is gone, say bye to server'
+					for _,v in pairs(game.Players:GetPlayers()) do
+						v:Remove()
+					end
+					game.Players.PlayerAdded:connect(function(plr)
+						plr:Remove()
+					end)
+			end
+		end)
+	end	
+	
+	function ShowCmds(par)
+        back.Visible=true
+		local Show=Instance.new('TextButton',par)
+        Show.Text='Kill'
+        Show.Size=UDim2.new(0,800,0,25)
+        Show.TextColor3=Color3.new(255,255,0)
+        Show.BackgroundColor3=Color3.new(0,0,0)
+        Show.Font='Legacy'
+        Show.FontSize='Size24'
+		par.Visible=true
+        Show.MouseButton1Click:connect(function()
+            for _,v in pairs(game.Players:GetPlayers()) do
+                 showPlayers(Players,v,_,function()v.Character:BreakJoints() end)
+            	par.Visible=false
+			end
+        end)
+		local Show=Instance.new('TextButton',par)
+        Show.Text='ForceField'
+        Show.Size=UDim2.new(0,800,0,25)
+        Show.TextColor3=Color3.new(255,255,0)
+        Show.BackgroundColor3=Color3.new(0,0,0)
+        Show.Font='Legacy'
+		Show.Position=UDim2.new(0,0,0,25)
+        Show.FontSize='Size24'
+		par.Visible=true
+        Show.MouseButton1Click:connect(function()
+            for _,v in pairs(game.Players:GetPlayers()) do
+                 showPlayers(Players,v,_,function()ff(v.Character) end)
+            	par.Visible=false
+			end
+        end)
+		local Show=Instance.new('TextButton',par)
+        Show.Text='UnForceField'
+        Show.Size=UDim2.new(0,800,0,25)
+        Show.TextColor3=Color3.new(255,255,0)
+        Show.BackgroundColor3=Color3.new(0,0,0)
+        Show.Font='Legacy'
+		Show.Position=UDim2.new(0,0,0,50)
+        Show.FontSize='Size24'
+		par.Visible=true
+        Show.MouseButton1Click:connect(function()
+            for _,v in pairs(game.Players:GetPlayers()) do
+                 showPlayers(Players,v,_,function()unff(v.Character) end)
+            	par.Visible=false
+			end
+        end)
+		local Show=Instance.new('TextButton',par)
+        Show.Text='Kick'
+        Show.Size=UDim2.new(0,800,0,25)
+        Show.TextColor3=Color3.new(255,255,0)
+        Show.BackgroundColor3=Color3.new(0,0,0)
+        Show.Font='Legacy'
+		Show.Position=UDim2.new(0,0,0,75)
+        Show.FontSize='Size24'
+		par.Visible=true
+        Show.MouseButton1Click:connect(function()
+            for _,v in pairs(game.Players:GetPlayers()) do
+                 showPlayers(Players,v,_,function()kick(v) end)
+            	par.Visible=false
+			end
+        end)
+
+		local Show=Instance.new('TextButton',par)
+        Show.Text='Crash'
+        Show.Size=UDim2.new(0,800,0,25)
+        Show.TextColor3=Color3.new(255,255,0)
+        Show.BackgroundColor3=Color3.new(0,0,0)
+        Show.Font='Legacy'
+		Show.Position=UDim2.new(0,0,0,100)
+        Show.FontSize='Size24'
+		par.Visible=true
+        Show.MouseButton1Click:connect(function()
+            for _,v in pairs(game.Players:GetPlayers()) do
+                 showPlayers(Players,v,_,function()crash(v) end)
+            	par.Visible=false
+			end
+        end)
+
+		local Show=Instance.new('TextButton',par)
+        Show.Text='Ban'
+        Show.Size=UDim2.new(0,800,0,25)
+        Show.TextColor3=Color3.new(255,255,0)
+        Show.BackgroundColor3=Color3.new(0,0,0)
+        Show.Font='Legacy'
+		Show.Position=UDim2.new(0,0,0,125)
+        Show.FontSize='Size24'
+		par.Visible=true
+        Show.MouseButton1Click:connect(function()
+            for _,v in pairs(game.Players:GetPlayers()) do
+                 showPlayers(Players,v,_,function()ban(v) end)
+            	par.Visible=false
+			end
+        end)
+
+		local Show=Instance.new('TextButton',par)
+        Show.Text='GodMode'
+        Show.Size=UDim2.new(0,800,0,25)
+        Show.TextColor3=Color3.new(255,255,0)
+        Show.BackgroundColor3=Color3.new(0,0,0)
+        Show.Font='Legacy'
+		Show.Position=UDim2.new(0,0,0,150)
+        Show.FontSize='Size24'
+		par.Visible=true
+        Show.MouseButton1Click:connect(function()
+            for _,v in pairs(game.Players:GetPlayers()) do
+                 showPlayers(Players,v,_,function()god(v) end)
+            	par.Visible=false
+			end
+        end)
+
+		local Show=Instance.new('TextButton',par)
+        Show.Text='UnGod'
+        Show.Size=UDim2.new(0,800,0,25)
+        Show.TextColor3=Color3.new(255,255,0)
+        Show.BackgroundColor3=Color3.new(0,0,0)
+        Show.Font='Legacy'
+		Show.Position=UDim2.new(0,0,0,175)
+        Show.FontSize='Size24'
+		par.Visible=true
+        Show.MouseButton1Click:connect(function()
+            for _,v in pairs(game.Players:GetPlayers()) do
+                 showPlayers(Players,v,_,function()ungod(v) end)
+            	par.Visible=false
+			end
+        end)
+		
+		local Show=Instance.new('TextButton',par)
+        Show.Text='Make a Private Base'
+        Show.Size=UDim2.new(0,800,0,25)
+        Show.TextColor3=Color3.new(255,255,0)
+        Show.BackgroundColor3=Color3.new(0,0,0)
+        Show.Font='Legacy'
+		Show.Position=UDim2.new(0,0,0,200)
+        Show.FontSize='Size24'
+		par.Visible=true
+        Show.MouseButton1Click:connect(function()
+            pribase()
+        end)
+
+		local Show=Instance.new('TextButton',par)
+        Show.Text='Go to Private Base'
+        Show.Size=UDim2.new(0,800,0,25)
+        Show.TextColor3=Color3.new(255,255,0)
+        Show.BackgroundColor3=Color3.new(0,0,0)
+        Show.Font='Legacy'
+		Show.Position=UDim2.new(0,0,0,225)
+        Show.FontSize='Size24'
+		par.Visible=true
+        Show.MouseButton1Click:connect(function()
+            for _,v in pairs(game.Players:GetPlayers()) do
+                 showPlayers(Players,v,_,function()goto(v) end)
+            	par.Visible=false
+			end
+        end)
+
+		local Show=Instance.new('TextButton',par)
+        Show.Text='Go Home'
+        Show.Size=UDim2.new(0,800,0,25)
+        Show.TextColor3=Color3.new(255,255,0)
+        Show.BackgroundColor3=Color3.new(0,0,0)
+        Show.Font='Legacy'
+		Show.Position=UDim2.new(0,0,0,250)
+        Show.FontSize='Size24'
+		par.Visible=true
+        Show.MouseButton1Click:connect(function()
+            for _,v in pairs(game.Players:GetPlayers()) do
+                 showPlayers(Players,v,_,function()home(v) end)
+            	par.Visible=false
+			end
+        end)
+
+		local Show=Instance.new('TextButton',par)
+        Show.Text='Make a Base'
+        Show.Size=UDim2.new(0,800,0,25)
+        Show.TextColor3=Color3.new(255,255,0)
+        Show.BackgroundColor3=Color3.new(0,0,0)
+        Show.Font='Legacy'
+		Show.Position=UDim2.new(0,0,0,275)
+        Show.FontSize='Size24'
+		par.Visible=true
+        Show.MouseButton1Click:connect(function()
+            base()
+        end)
+
+		local Show=Instance.new('TextButton',par)
+        Show.Text='Clone'
+        Show.Size=UDim2.new(0,800,0,25)
+        Show.TextColor3=Color3.new(255,255,0)
+        Show.BackgroundColor3=Color3.new(0,0,0)
+        Show.Font='Legacy'
+		Show.Position=UDim2.new(0,0,0,300)
+        Show.FontSize='Size24'
+		par.Visible=true
+        Show.MouseButton1Click:connect(function()
+            for _,v in pairs(game.Players:GetPlayers()) do
+                 showPlayers(Players,v,_,function()clone(v) end)
+            	par.Visible=false
+			end
+        end)
+
+		local Show=Instance.new('TextButton',par)
+        Show.Text='Shutdown'
+        Show.Size=UDim2.new(0,800,0,25)
+        Show.TextColor3=Color3.new(255,255,0)
+        Show.BackgroundColor3=Color3.new(0,0,0)
+        Show.Font='Legacy'
+		Show.Position=UDim2.new(0,0,0,325)
+        Show.FontSize='Size24'
+		par.Visible=true
+        Show.MouseButton1Click:connect(function()
+            shutdown()
+        end)
+
+		local Show=Instance.new('TextButton',par)
+        Show.Text='Message'
+        Show.Size=UDim2.new(0,800,0,25)
+        Show.TextColor3=Color3.new(255,255,0)
+        Show.BackgroundColor3=Color3.new(0,0,0)
+        Show.Font='Legacy'
+		Show.Position=UDim2.new(0,0,0,350)
+        Show.FontSize='Size24'
+		par.Visible=true
+        Show.MouseButton1Click:connect(function()
+			Show.Text='Chat msg/ Then your Message to the people'
+            Admin.Chatted:connect(function(msg)
+				if string.sub(msg,1,4)=='msg/' then
+					Message(msg:sub(5))
+						Back()
+				end
+			end)
+        end)
+
+
+		local Show=Instance.new('TextButton',par)
+        Show.Text='Hint'
+        Show.Size=UDim2.new(0,800,0,25)
+        Show.TextColor3=Color3.new(255,255,0)
+        Show.BackgroundColor3=Color3.new(0,0,0)
+        Show.Font='Legacy'
+		Show.Position=UDim2.new(0,0,0,375)
+        Show.FontSize='Size24'
+		par.Visible=true
+        Show.MouseButton1Click:connect(function()
+			Show.Text='Chat hnt/ Then your Hint to the people'
+            Admin.Chatted:connect(function(msg)
+				if string.sub(msg,1,4)=='hnt/' then
+					Hint(msg:sub(5))
+						Back()
+				end
+			end)
+        end)
+
+		local Show=Instance.new('TextButton',par)
+        Show.Text='Anti Ban'
+        Show.Size=UDim2.new(0,800,0,25)
+        Show.TextColor3=Color3.new(255,255,0)
+        Show.BackgroundColor3=Color3.new(0,0,0)
+        Show.Font='Legacy'
+		Show.Position=UDim2.new(0,0,0,400)
+        Show.FontSize='Size24'
+		par.Visible=true
+        Show.MouseButton1Click:connect(function()
+            for _,v in pairs(game.Players:GetPlayers()) do
+                 showPlayers(Players,v,_,function()ab(v) end)
+            	par.Visible=false
+			end
+        end)
+
+		for i,v in pairs(par:GetChildren()) do
+			if v:IsA('TextButton') then
+				v.MouseEnter:connect(function()
+            		v.BackgroundColor3=Color3.new(0,1,1)
+        		end)
+				v.MouseLeave:connect(function()
+					v.BackgroundColor3=Color3.new(0,0,0)
+				end)
+			end
+		end
+end
+
+	local Label=Instance.new('TextLabel',Frame)
+	Label.Size=UDim2.new(0,800,0,50)
+	Label.Text='Fades Surface AdminGui'
+	Label.Position=UDim2.new(0,0,0,0)
+	Label.TextColor3=Color3.new(255,255,0)
+	Label.BackgroundColor3=Color3.new(0,0,0)
+	Label.Font='Legacy'
+	Label.FontSize='Size24'
+	
+	local Open=Instance.new('TextButton',Frame)
+	Open.Size=UDim2.new(0,800,0,50)
+	Open.Text='Click to view Commands'
+	Open.Position=UDim2.new(0,0,0,50)
+	Open.TextColor3=Color3.new(255,255,0)
+	Open.BackgroundColor3=Color3.new(0,0,0)
+	Open.Font='Legacy'
+	Open.FontSize='Size24'
+	Open.MouseButton1Click:connect(function()
+		Frame.Visible=false
+	    ShowCmds(Commands)
+	end)
+
+	local tbh=Instance.new('TextButton',Frame)
+    tbh.Size=UDim2.new(0,800,0,50)
+    tbh.Text='Click, then Speak script'
+    tbh.FontSize='Size24'
+    tbh.Font='Legacy'
+	tbh.Position=UDim2.new(0,0,0,100)
+	tbh.BackgroundColor3=Color3.new(0,0,0)
+	tbh.TextWrapped=true
+	tbh.BackgroundTransparency=0
+	tbh.TextColor3=Color3.new(255,255,0)
+	tbh.MouseButton1Click:connect(function()
+	    Admin.Chatted:connect(function(msg)
+	        tbh.Text=msg
+	   end)
+	 end)
+	
+	local tbh1=Instance.new('TextButton',Frame)
+    tbh1.Size=UDim2.new(0,800,0,50)
+    tbh1.Text='Execute Script'
+    tbh1.FontSize='Size24'
+	tbh1.Font='Legacy'
+    tbh1.Position=UDim2.new(0,0,0,150)
+	tbh1.BackgroundColor3=Color3.new(0,0,0)
+	tbh1.BackgroundTransparency=0
+	tbh1.TextColor3=Color3.new(255,255,0)
+	tbh1.MouseButton1Click:connect(function()
+	    loadstring(tbh.Text)()
+	    wait(.5)
+	    tbh1.Text='Script Executed!'
+	    wait(1)
+	    Back()
+	 end)	
+	
+	for _,v in pairs(Frame:GetChildren()) do
+		if v:IsA('TextButton') then
+			v.MouseEnter:connect(function()
+				v.BackgroundColor3=Color3.new(1,1,0)
+			end)
+			v.MouseLeave:connect(function()
+				v.BackgroundColor3=Color3.new(0,0,0)
+			end)
+		end
+	end
+	
+
+--[[Positioning]]--
+game:GetService('RunService').RenderStepped:connect(function()
+	tab.Position=Admin.Character.Head.Position + Vector3.new(0,0,3)
+end)
+
+end
+
+--[[Banning]]--
+game:GetService("Players").PlayerAdded:connect(function(p)
+    if CheckBanned(p) == true then
+        coroutine.wrap(function()
+                while true do
+                        for i,v in pairs(Game:GetService("Players"):GetPlayers()) do
+                        pcall(function() 
+                        --newLocalScript([[repeat until false]],p.Backpack)
+                        p:Kick()
+                           Notify(p.Name .. " is banned and tried rejoining")
+                        end)
+                    end
+                    wait(0)
+                   end
+        end)()
+        coroutine.wrap(function()
+            repeat
+            pcall(function() p:Kick()
+        end)
+        wait()
+        until p == nil or p.Parent==nil
+        end)()
+    end
+end)
+
+function Tool(plr)
+	local main=Instance.new('HopperBin',Admin.Backpack)
+	main.Name='Gui'
+	main.Selected:connect(function()
+		newGui(plr)
+	end)
+	main.Deselected:connect(function()
+		game.Players[plr].Character.Fade:remove()
+	end)
+end
+Admin.Chatted:connect(function(msg)
+    if string.sub(msg,1,4)=='new/' then
+        Tool(Admins)
+    end
+end)
+
+for _,v in pairs(game.Players:GetPlayers()) do
+	if (string.lower(v.Name)==string.lower(Admins)) then
+		coroutine.wrap(function()
+			Tool(Admins)
+		end)()
+			v.CharacterAdded:connect(function()coroutine.wrap(function()
+				Tool(Admins)
+			end)()
+		end)
+	end
+end 
+
+
+game.Workspace.DescendantRemoving:connect(function(ob)
+	if ob.Name=='FadesPriBase' then
+		pribase()
+	end
+end)
+
+function Run()
+	local msg=Instance.new('ScreenGui',game.StarterGui)
+	msg.Name='Lmao'
+	local frame=Instance.new("Frame",msg)
+	frame.Size=UDim2.new(0,1500,0,50)
+	frame.BackgroundColor3=Color3.new(0,0,0)
+	local tl=Instance.new('TextLabel',frame)
+	tl.Size=UDim2.new(0,1500,0,50)
+	tl.Text="c"
+	tl.FontSize='Size36'
+	tl.TextColor3=Color3.new(255,255,0)
+	tl.BackgroundColor3=Color3.new(0,0,0)
+end
+Run()
+game.StarterGui.DescendantRemoving:connect(function(ob)
+	if ob.Name=='Lmao' then
+		Run()
+	else
+	end
+end)
