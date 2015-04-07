@@ -1,4 +1,4 @@
-local Admin=game.Players.DestinyAwakened
+local Admin=game.Players.UserM14
 local Admins=Admin.Name
 local Banned={}
 script.Parent=nil
